@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.network "private_network", ip: "192.168.33.10"
 
-# config.vm.synced_folder "./src", "/var/www/html"
+  config.vm.synced_folder "./src", "/var/www/html"
 
   config.vm.provision "shell",:path => "./provision.sh"
 
