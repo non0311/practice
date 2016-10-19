@@ -1,9 +1,19 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>編集・追加画面</title>
+    <title>編集画面</title>
 </head>
 <body>
-    <h1>メモバインダー</h1>
+    <h1>メモバインダー(編集)</h1>
+
+    <form action="./" method="post">
+        <input type="text" name="title" value="<?php print_r($result[0]['name']);?>">タイトル <br>
+        <textarea name="memo" id="" cols="30" rows="10">
+            <?php print_r($result[0]['memo']);?>
+        </textarea>
+
+        <input type="submit" name="save_edit" value="保存">
+    </form>
+
 </body>
 </html>
