@@ -21,6 +21,9 @@ yum -y install --enablerepo=remi,epel,remi-php70 php php-intl php-mbstring php-p
 #その他
 yum -y install vim
 
+#httpd設定シンボリックリンク作成
+ln -s /vagrant/practice.conf /etc/httpd/conf.d/.
+
 #mariadb起動、自動起動設定
 systemctl start mariadb
 systemctl enable mariadb
