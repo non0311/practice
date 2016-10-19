@@ -1,0 +1,30 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>選択画面</title>
+</head>
+<body>
+    <h1>メモバインダー(選択画面)</h1>
+
+    <table>
+        <tr>
+            <th>タイトル</th>
+            <th>メモ内容</th>
+        </tr>
+        <?php for($i=0; $i<$count; $i++): ?>
+            <tr>
+                <td><?php print_r($result[$i]['name']);?></td>
+                <td><?php print_r($result[$i]['memo']);?></td>
+                <form action="./" method="post">
+                    <input type="submit" name="edit" value="編集" id="">
+                </form>
+            </tr>
+        <?php endfor; ?>
+    </table>
+
+    <form action="./" method="post">
+        <input type="text" name="test" id="">テスト
+        <input type="submit" name="add" value="メモを追加" id="">
+    </form>
+</body>
+</html>
