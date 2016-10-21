@@ -5,25 +5,28 @@
 </head>
 <body>
     <h1>メモバインダー(選択画面)</h1>
-
     <table>
         <tr>
+            <th>番号</th>
             <th>タイトル</th>
             <th>メモ内容</th>
         </tr>
-        <?php for($i=0; $i<$count; $i++): ?>
+        <?php for($i=0; $i < $count; $i++): ?>
             <tr>
+                <td><?php echo $i + 1;?></td>
                 <td><?php print_r($result[$i]['name']);?></td>
-                <td><?php print_r($result[$i]['memo']);?></td>
-                <form action="./" method="post">
-                    <input type="submit" name="edit" value="編集" id="">
-                </form>
+                <td><?php print_r($result[$i]['memo']);?>
+                    <form action="./" method="post">
+                        <input type="submit" name="edit" value="編集" id="">
+                        <input type="hidden" name="edit_num" value="<?php echo $i + 1;?>">
+                    </form>
+                </td>
             </tr>
         <?php endfor; ?>
     </table>
-
+    <br>
     <form action="./" method="post">
-        <input type="text" name="test" id="">テスト
+        新規に追加はこちらから →
         <input type="submit" name="add" value="メモを追加" id="">
     </form>
 </body>

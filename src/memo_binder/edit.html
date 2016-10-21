@@ -6,13 +6,19 @@
 <body>
     <h1>メモバインダー(編集)</h1>
 
+    <?php var_dump($edit_num);?>
+
+    <?php print_r($result[$edit_num]['memo']) ;?>
+
+
     <form action="./" method="post">
-        <input type="text" name="title" value="<?php print_r($result[0]['name']);?>">タイトル <br>
+        <input type="text" name="title" value="<?php print_r($result[$edit_num]['name']);?>">タイトル <br>
         <textarea name="memo" id="" cols="30" rows="10">
-            <?php print_r($result[0]['memo']);?>
+            <?php print_r($result[$edit_num]['memo']);?>
         </textarea>
 
         <input type="submit" name="save_edit" value="保存">
+        <input type="hidden" name="edit_num" value="<?php echo $edit_num;?>">
     </form>
 
 </body>
