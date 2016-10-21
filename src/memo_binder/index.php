@@ -11,7 +11,13 @@ echo "データベース<{$dbName}>に接続しました";
 $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
 $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 
+
+
 /**初期に実際に打ったコマンド
+
+ルートでログイン  (ちなみにPDOとか書いているので、先にDB作らないとエラーになる)
+mysql -u root
+
 create database memodb;
 grant all on memodb.* to non@localhost identified by 'qwe';
 use memodb
