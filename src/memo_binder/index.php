@@ -1,5 +1,5 @@
 <?php
-//http://192.168.33.10/practice/memo_binder/index.php
+//http://192.168.33.10/memo_binder/index.php
 //データベース
 $user = 'non';      $password = 'qwe';
 $dbName = 'memodb'; $host = 'localhost';
@@ -11,7 +11,12 @@ echo "データベース<{$dbName}>に接続しました";
 $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
 $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 
+
 /**初期に実際に打ったコマンド
+
+ルートでログイン  (ちなみにPDOとか書いているので、先にDB作らないとエラーになる)
+mysql -u root
+
 create database memodb;
 grant all on memodb.* to non@localhost identified by 'qwe';
 use memodb
@@ -41,30 +46,43 @@ $sql_sel = "SELECT * FROM memodb.memos";
 $stm_sel = $pdo->prepare($sql_sel);
 $stm_sel->execute();
 $result = $stm_sel->fetchAll(PDO::FETCH_ASSOC);
+//var_dump($result);
 
 
 
 
 $form = $_POST; $error = array();
+//デバックで
 print_r($form);
+
+$edit_num = $form[edit_num];
+echo $edit_num;
 
 //①最初の処理。postの値が何もなければ、selectを読む
 if (empty($_POST)) {
     include_once("select.html");
+    echo "postが空なので初期処理です";
     exit;
 }
 
 //②『編集』ボタンを押下 && save_edit が空
 if (!empty($form['edit']) && empty($form['save_edit'])) {
+    $edit_num = $edit_num - 1;
     include_once("edit.html");
+    echo "編集ボタンが押されました";
     exit;
 }
+
+echo "確-------認";
+
 //save_edit　が押下されたら  アップデート
 if (!empty($form['save_edit'])){
     $upd_title = $form['title']; $upd_memo = $form['memo'];
-    $sql_upd = "UPDATE memodb.memos SET name = '$upd_title' ,memo = '$upd_memo' WHERE id = 1";
+//    $edit_num = $edit_num + 1;
+    $sql_upd = "UPDATE memodb.memos SET name = '$upd_title' ,memo = '$upd_memo' WHERE id = $edit_num";
     $stm_upd = $pdo->prepare($sql_upd);
     $stm_upd->execute();
+    echo "アップデートしました";
 }
 
 
@@ -96,22 +114,14 @@ if (!empty($form['save_add'])) {
 }
 
 //リダイレクトでpostを空にし、最初の画面へ戻る
-header('Location: http://192.168.33.10/practice/memo_binder/index.php');
+header('Location: http://192.168.33.10/memo_binder/index.php');
 exit;
 
 
+//改善点　課題
+//$resultで値をセェクトで受け取ってる、viewでfor分で回してるが、
+//普通に、連想配列で取得したものを、foreachでviewで回すべきかな。
+//そうすれば、countの変数もいらない。レコード総数取得とかしないで済む。
+//edit_numも、select.htmlで、テーブルのidを入れて対応したほうが良い。じゃないと、レコードが削除された時に、
+//おかしくなる
 
-//ファイルの新規生成ができないため、vagrantの中の
-// /etc/httpd/conf/conf.d/practice.confを作成
-//
-//User vagrant
-//Group vagrant
-//
-//<Directory "/vagrant/practice">
-//AllowOverride all
-//    Require all granted
-//</Directory>
-//
-//<IfModule dir_module>
-//DirectoryIndex index.html index.php
-//</IfModule>
